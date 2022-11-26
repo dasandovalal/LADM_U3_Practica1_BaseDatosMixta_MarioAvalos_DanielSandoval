@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">LADM_U3_Practica1_BaseDatosMixta_MarioAvalos_DanielSandoval</string>
+    <array name="carreras">
+        <item>ARQUITECTURA</item>
+        <item>BIOQUIMICA</item>
+        <item>CIVIL</item>
+        <item>ELECTRICA</item>
+        <item>EN GESTION EMPRESARIAL</item>
+        <item>INDUSTRIAL</item>
+        <item>MECATRONICA</item>
+        <item>QUIMICA</item>
+        <item>SISTEMAS COMPUTACIONALES</item>
+        <item>TIC</item>
+        <item>ADMINISTRACION</item>
+    </array>
 </resources>
