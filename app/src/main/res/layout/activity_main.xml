@@ -77,6 +77,14 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="REGIStros locales"
+        android:id="@+id/btnMostrar"
+        android:layout_marginBottom="40dp"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="GUARDAR EN LA NUBE"
         android:id="@+id/btnFirebase"
         android:enabled="false"
