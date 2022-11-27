@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="10dp"
     tools:context=".MainActivity">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="NOMBRE COMPLETO"
+        android:hint="Nombre (ej. Juan Perez Gutierrez)"
         android:id="@+id/txtNombre"
         android:inputType="textPersonName"
         android:layout_marginBottom="10dp"
@@ -19,14 +19,14 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="ESCUELA ACTUAL"
+        android:hint="Escuela actual"
         android:id="@+id/txtEscuelaActual"
         android:layout_marginBottom="10dp"
         />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="TELEFONO"
+        android:hint="Telefono celular (ej. 3117772222)"
         android:id="@+id/txtTelefono"
         android:inputType="phone"
         android:layout_marginBottom="10dp"
@@ -61,7 +61,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="CORREO ELECTRONICO"
+        android:hint="e-mail (ej. laura@hotmail.com)"
         android:id="@+id/txtCorreo"
         android:inputType="textEmailAddress"
         android:layout_marginBottom="10dp"
@@ -70,16 +70,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="REGISTRAR"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/btnRegistrar"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="30dp"
         />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="REGIStros locales"
+        android:text=" VER REGIStros locales"
         android:id="@+id/btnMostrar"
-        android:layout_marginBottom="40dp"
         />
 
     <Button
@@ -88,7 +87,6 @@
         android:text="GUARDAR EN LA NUBE"
         android:id="@+id/btnFirebase"
         android:enabled="false"
-        android:layout_marginTop="10dp"
         />
     <TextView
         android:layout_width="wrap_content"

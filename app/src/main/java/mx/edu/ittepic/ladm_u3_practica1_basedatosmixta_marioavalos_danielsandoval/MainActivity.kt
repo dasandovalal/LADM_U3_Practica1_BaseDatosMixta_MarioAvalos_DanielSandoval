@@ -21,19 +21,56 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btnRegistrar.setOnClickListener {
-            AlumnoInteresado(this).registrarAlumnoInteresado(
-                txtNombre,txtEscuelaActual,txtTelefono,spinnerCarreraUNO,
-                spinnerCarreraDOS,txtCorreo
-            )
-        }
+            if (validarCampos()) {
+                val sePudoRegistrar =
+                    AlumnoInteresado(this).registrarAlumnoInteresado(
+                        txtNombre, txtEscuelaActual, txtTelefono, spinnerCarreraUNO,
+                        spinnerCarreraDOS, txtCorreo
+                    )
+                if (sePudoRegistrar){
+                    Toast.makeText(this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show()
+                    limpiarCampos()
+                }else{
+                    AlertDialog.Builder(this)
+                        .setTitle("ERROR")
+                        .setMessage("NO SE PUDO INSERTAR")
+                        .setPositiveButton("OK"){d,i->}
+                        .show()
+                }// Intentar insertar
+            }else{
+                AlertDialog.Builder(this)
+                    .setTitle("REGLAS PARA REGISTRAR")
+                    .setMessage("1. NO Campos vacios.\n" +
+                            "2. 10 digitos para el telefono, numeros juntos.\n" +
+                            "3. Escoger diferentes opciones de carrera.")
+                    .setPositiveButton("OK"){d,i->}
+                    .show()
+            }//Validar campos
+
+        }//btnRegistrar
 
         btnMostrar.setOnClickListener {
             val otraVentana = Intent(this,MainActivity2::class.java)
             startActivity(otraVentana)
-        }
+        }//Mostrar registros locales en otra ventana
     }
 
+    fun limpiarCampos(){
+        txtNombre.text.clear()
+        txtEscuelaActual.text.clear()
+        txtTelefono.text.clear()
+        txtCorreo.text.clear()
+    }
 
+    fun validarCampos():Boolean{
+        if (txtNombre.text.toString()==""||txtEscuelaActual.text.toString()==""
+            ||txtTelefono.text.toString()==""||txtCorreo.text.toString()==""||
+            txtTelefono.text.toString().length>10||txtTelefono.text.toString().length<10||
+            spinnerCarreraUNO.selectedItem == spinnerCarreraDOS.selectedItem){
+            return false
+        }
+        return true
+    }
 
 
 }

@@ -15,11 +15,12 @@ import java.sql.Date
 
 data class AlumnoInteresado(val m:AppCompatActivity){
 
-    private var baseDatos = BaseDatos(m,"REGISTROS_6",null,1)
+    private var baseDatos = BaseDatos(m,"REGISTROS_7",null,1)
 
     fun registrarAlumnoInteresado(nombre:EditText,escuela:EditText,
                                   telefono:EditText,carreraUno:Spinner,
-                                  carreraDos:Spinner,correo:EditText) {
+                                  carreraDos:Spinner,correo:EditText):Boolean {
+
         val NOMBRE = nombre.text.toString()
         val ESCUELA = escuela.text.toString()
         val TELEFONO = telefono.text.toString()
@@ -35,7 +36,6 @@ data class AlumnoInteresado(val m:AppCompatActivity){
         datos.put("CARRERA_UNO",CARRERA_DOS)
         datos.put("CORREO",CORREO)
 
-
         var res = baseDatos.writableDatabase.insert("ALUMNO_INTERESADO","ID",datos)
         if (res == -1L){
             AlertDialog.Builder(m)
@@ -43,39 +43,8 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                 .setMessage("NO SE PUDO GUARDAR").show()
         }else{
             Toast.makeText(m,"Se INSERTO CON EXITO", Toast.LENGTH_LONG).show()
-
         }
-
-
-        /*
-        var datos = ContentValues()
-        datos.put("NOMBRE",nombre.text.toString())
-        datos.put("ESCUELA",escuela.text.toString())
-        datos.put("TELEFONO",telefono.text.toString())
-        datos.put("CARRERA_UNO",carreraUno.selectedItem.toString())
-        datos.put("CARRERA_DOS",carreraDos.selectedItem.toString())
-        datos.put("CORREO",correo.text.toString())
-
-        var cadena = "$nombre\n$escuela\n$telefono\n$carrera_uno" +
-                "\n$carrera_dos\n$correo"
-
-        if (camposNoVacios(nombre,escuela,telefono,correo)){
-            AlertDialog.Builder(m)
-                .setTitle("DATOS")
-                .setMessage(cadena)
-                .show()
-            limpiarCampos()
-        }else{
-            AlertDialog.Builder(m)
-                .setTitle("ERROR")
-                .setMessage("Existen campos vacios")
-                .show()
-        }
-
-         */
-
-
-
+        return true
     }
 
     fun mostrarRegistros(){
@@ -104,20 +73,5 @@ data class AlumnoInteresado(val m:AppCompatActivity){
 
         m.listaRegistros.adapter = ArrayAdapter<String>(m,
             R.layout.simple_list_item_1, lista)
-    }
-
-    fun camposNoVacios(nombre:String,escuela:String,
-                       telefono:String,correo:String):Boolean{
-        if (nombre==""||escuela==""||telefono==""||correo==""){
-            return false
-        }
-        return true
-    }
-
-    fun limpiarCampos(){
-        m.txtNombre.text.clear()
-        m.txtEscuelaActual.text.clear()
-        m.txtTelefono.text.clear()
-        m.txtCorreo.text.clear()
     }
 }

@@ -3,6 +3,7 @@ package mx.edu.ittepic.ladm_u3_practica1_basedatosmixta_marioavalos_danielsandov
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import kotlinx.android.synthetic.main.activity_main2.*
 
 class MainActivity2 : AppCompatActivity() {
 
@@ -11,6 +12,10 @@ class MainActivity2 : AppCompatActivity() {
         setContentView(R.layout.activity_main2)
 
         AlumnoInteresado(this).mostrarRegistros()
+
+        btnAtras.setOnClickListener {
+            finish()
+        }
 
     }
 
