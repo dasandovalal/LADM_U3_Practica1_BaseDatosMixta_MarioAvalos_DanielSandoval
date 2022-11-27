@@ -15,7 +15,7 @@ import java.sql.Date
 
 data class AlumnoInteresado(val m:AppCompatActivity){
 
-    private var baseDatos = BaseDatos(m,"REGISTROS",null,1)
+    private var baseDatos = BaseDatos(m,"REGISTROS_6",null,1)
 
     fun registrarAlumnoInteresado(nombre:EditText,escuela:EditText,
                                   telefono:EditText,carreraUno:Spinner,

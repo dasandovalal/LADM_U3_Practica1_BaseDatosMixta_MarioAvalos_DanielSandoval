@@ -15,7 +15,7 @@ class BaseDatos(
                 "NOMBRE VARCHAR(200) NOT NULL, ESCUELA_ACTUAL VARCHAR(200) NOT NULL, " +
                 "TELEFONO CHAR(10) UNIQUE NOT NULL, CARRERA_UNO VARCHAR(24) NOT NULL, " +
                 "CARRERA_DOS VARCHAR(24) NOT NULL, CORREO VARCHAR(200) UNIQUE NOT NULL, " +
-                "FECHA DATE DEFAULT CURRENT_DATE, HORA TIME DEFAULT CURRENT_TIME)")
+                "FECHA DATE DEFAULT CURRENT_DATE, HORA TIME DEFAULT (time('now','localtime')))")
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
