@@ -2,12 +2,16 @@ package mx.edu.ittepic.ladm_u3_practica1_basedatosmixta_marioavalos_danielsandov
 
 import android.R
 import android.content.ContentValues
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.activity_main2.*
@@ -76,7 +80,8 @@ data class AlumnoInteresado(val m:AppCompatActivity){
     }
 
 
-    /*fun guardarEnLaNube(){
+    fun guardarEnLaNube(){
+        val nube = Firebase.firestore
         var registros = baseDatos.readableDatabase
         var resultado = registros.query("ALUMNO_INTERESADO", arrayOf("*"), null,
             null, null, null, null)
@@ -94,15 +99,18 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                     "HORA" to resultado.getString(8)
                 )
 
-                FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                nube.collection("ALUMNO_INTERESADO")
                     .add(datos)
                     .addOnSuccessListener {
                         Toast.makeText(m,"GUARDADO EN LA NUBE",Toast.LENGTH_LONG).show()
+                        Log.d("~Success","$it")
                     }
                     .addOnFailureListener {
+                        Log.w("~Error","Error",it)
                         AlertDialog.Builder(m)
                             .setTitle("ERROR EN FIREBASE")
                             .setMessage(it.message!!)
+                            .show()
                     }
             } while (resultado.moveToNext())
 
@@ -114,5 +122,4 @@ data class AlumnoInteresado(val m:AppCompatActivity){
 
     }
 
-     */
 }

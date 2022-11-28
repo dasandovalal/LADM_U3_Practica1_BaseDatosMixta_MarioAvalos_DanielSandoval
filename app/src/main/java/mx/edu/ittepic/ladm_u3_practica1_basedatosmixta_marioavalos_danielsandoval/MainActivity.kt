@@ -53,6 +53,10 @@ class MainActivity : AppCompatActivity() {
             val otraVentana = Intent(this,MainActivity2::class.java)
             startActivity(otraVentana)
         }//Mostrar registros locales en otra ventana
+
+        btnFirebase.setOnClickListener {
+            AlumnoInteresado(this).guardarEnLaNube()
+        }
     }
 
     fun limpiarCampos(){
