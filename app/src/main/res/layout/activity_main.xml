@@ -86,7 +86,6 @@
         android:layout_height="wrap_content"
         android:text="GUARDAR EN LA NUBE"
         android:id="@+id/btnFirebase"
-        android:enabled="false"
         />
     <TextView
         android:layout_width="wrap_content"

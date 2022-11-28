@@ -15,7 +15,7 @@ import java.sql.Date
 
 data class AlumnoInteresado(val m:AppCompatActivity){
 
-    private var baseDatos = BaseDatos(m,"REGISTROS_7",null,1)
+    private var baseDatos = BaseDatos(m,"REGISTROS_9",null,1)
 
     fun registrarAlumnoInteresado(nombre:EditText,escuela:EditText,
                                   telefono:EditText,carreraUno:Spinner,
@@ -32,8 +32,8 @@ data class AlumnoInteresado(val m:AppCompatActivity){
         datos.put("NOMBRE",NOMBRE)
         datos.put("ESCUELA_ACTUAL",ESCUELA)
         datos.put("TELEFONO",TELEFONO)
-        datos.put("CARRERA_DOS",CARRERA_UNO)
-        datos.put("CARRERA_UNO",CARRERA_DOS)
+        datos.put("CARRERA_UNO",CARRERA_UNO)
+        datos.put("CARRERA_DOS",CARRERA_DOS)
         datos.put("CORREO",CORREO)
 
         var res = baseDatos.writableDatabase.insert("ALUMNO_INTERESADO","ID",datos)
@@ -74,4 +74,45 @@ data class AlumnoInteresado(val m:AppCompatActivity){
         m.listaRegistros.adapter = ArrayAdapter<String>(m,
             R.layout.simple_list_item_1, lista)
     }
+
+
+    /*fun guardarEnLaNube(){
+        var registros = baseDatos.readableDatabase
+        var resultado = registros.query("ALUMNO_INTERESADO", arrayOf("*"), null,
+            null, null, null, null)
+
+        if (resultado.moveToFirst()) {
+            do {
+                var datos = hashMapOf(
+                    "NOMBRE" to resultado.getString(1),
+                    "ESCUELA_ACTUAL" to resultado.getString(2),
+                    "TELEFONO" to resultado.getString(3),
+                    "CARRERA_UNO" to resultado.getString(4),
+                    "CARRERA_DOS" to resultado.getString(5),
+                    "CORREO" to resultado.getString(6),
+                    "FECHA" to resultado.getString(7),
+                    "HORA" to resultado.getString(8)
+                )
+
+                FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                    .add(datos)
+                    .addOnSuccessListener {
+                        Toast.makeText(m,"GUARDADO EN LA NUBE",Toast.LENGTH_LONG).show()
+                    }
+                    .addOnFailureListener {
+                        AlertDialog.Builder(m)
+                            .setTitle("ERROR EN FIREBASE")
+                            .setMessage(it.message!!)
+                    }
+            } while (resultado.moveToNext())
+
+        } else {
+            AlertDialog.Builder(m)
+                .setTitle("ERROR")
+                .setMessage("NO HAY REGISTROS LOCALES O NO HAY CONEXION A INTERNET.")
+        }
+
+    }
+
+     */
 }
