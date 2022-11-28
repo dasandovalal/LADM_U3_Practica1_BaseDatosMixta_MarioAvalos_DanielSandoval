@@ -91,8 +91,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="11sp"
-        android:text="Se habilita cuando existe algun registro y hay conexion a Internet.
-                      \nAl GUARDAR en la nube se borran los registros locales."
+        android:text="Se guardara en la NUBE al detectar conexion a Internet.
+                      \nAl GUARDAR en la nube se BORRAN los registros locales."
         android:textColor="#959595"
         />
 

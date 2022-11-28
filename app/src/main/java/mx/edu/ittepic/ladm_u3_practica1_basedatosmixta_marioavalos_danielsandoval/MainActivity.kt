@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
                         spinnerCarreraDOS, txtCorreo
                     )
                 if (sePudoRegistrar){
-                    Toast.makeText(this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show()
                     limpiarCampos()
                 }else{
                     AlertDialog.Builder(this)

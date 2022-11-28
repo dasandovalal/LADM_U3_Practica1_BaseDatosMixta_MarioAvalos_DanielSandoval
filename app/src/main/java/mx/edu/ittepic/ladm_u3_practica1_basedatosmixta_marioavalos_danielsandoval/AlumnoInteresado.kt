@@ -19,7 +19,7 @@ import java.sql.Date
 
 data class AlumnoInteresado(val m:AppCompatActivity){
 
-    private var baseDatos = BaseDatos(m,"REGISTROS_9",null,1)
+    private var baseDatos = BaseDatos(m,"REGISTROS",null,1)
 
     fun registrarAlumnoInteresado(nombre:EditText,escuela:EditText,
                                   telefono:EditText,carreraUno:Spinner,
@@ -46,7 +46,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                 .setTitle("ERROR")
                 .setMessage("NO SE PUDO GUARDAR").show()
         }else{
-            Toast.makeText(m,"Se INSERTO CON EXITO", Toast.LENGTH_LONG).show()
+            Toast.makeText(m,"REGISTRO GUARDADO LOCALMENTE", Toast.LENGTH_LONG).show()
         }
         return true
     }
@@ -78,7 +78,6 @@ data class AlumnoInteresado(val m:AppCompatActivity){
         m.listaRegistros.adapter = ArrayAdapter<String>(m,
             R.layout.simple_list_item_1, lista)
     }
-
 
     fun guardarEnLaNube(){
         val nube = Firebase.firestore
@@ -112,14 +111,23 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                             .setMessage(it.message!!)
                             .show()
                     }
+
+                eliminarPorID(resultado.getInt(0).toString())
+
             } while (resultado.moveToNext())
 
         } else {
             AlertDialog.Builder(m)
                 .setTitle("ERROR")
-                .setMessage("NO HAY REGISTROS LOCALES O NO HAY CONEXION A INTERNET.")
+                .setMessage("NO HAY REGISTROS LOCALES")
+                .show()
         }
 
+    }
+
+    fun eliminarPorID(idRegistro: String){
+        var resultado = baseDatos.writableDatabase
+            .delete("ALUMNO_INTERESADO","ID=?", arrayOf(idRegistro))
     }
 
 }
