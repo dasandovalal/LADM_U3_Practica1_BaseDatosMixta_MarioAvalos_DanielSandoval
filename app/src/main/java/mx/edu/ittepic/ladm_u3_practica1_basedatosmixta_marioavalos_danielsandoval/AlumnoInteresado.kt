@@ -3,10 +3,7 @@ package mx.edu.ittepic.ladm_u3_practica1_basedatosmixta_marioavalos_danielsandov
 import android.R
 import android.content.ContentValues
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,6 +17,7 @@ import java.sql.Date
 data class AlumnoInteresado(val m:AppCompatActivity){
 
     private var baseDatos = BaseDatos(m,"REGISTROS",null,1)
+    var listaIDs = ArrayList<String>()
 
     fun registrarAlumnoInteresado(nombre:EditText,escuela:EditText,
                                   telefono:EditText,carreraUno:Spinner,
@@ -51,7 +49,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
         return true
     }
 
-    fun mostrarRegistros(){
+    fun mostrarRegistrosLocales(listaParaMostrar:ListView){
         var registros = baseDatos.readableDatabase
         val lista = ArrayList<String>()
         var resultado = registros.query("ALUMNO_INTERESADO", arrayOf("*"), null,
@@ -74,9 +72,9 @@ data class AlumnoInteresado(val m:AppCompatActivity){
         } else {
             lista.add("LA TABLA ESTA VACIA")
         }
-
-        m.listaRegistros.adapter = ArrayAdapter<String>(m,
-            R.layout.simple_list_item_1, lista)
+        Log.d("~ListaL","$lista")
+        listaParaMostrar.adapter = ArrayAdapter<String>(m,
+            android.R.layout.simple_list_item_1, lista)
     }
 
     fun guardarEnLaNube(){
@@ -128,6 +126,30 @@ data class AlumnoInteresado(val m:AppCompatActivity){
     fun eliminarPorID(idRegistro: String){
         var resultado = baseDatos.writableDatabase
             .delete("ALUMNO_INTERESADO","ID=?", arrayOf(idRegistro))
+    }
+
+    fun mostrarDatosDeLaNube(listaParaMostrar:ListView){
+       FirebaseFirestore.getInstance()
+            .collection("ALUMNO_INTERESADO")
+            .addSnapshotListener { value, error ->
+                if(error != null){
+                    AlertDialog.Builder(m)
+                        .setTitle("ERROR")
+                        .setMessage("ERROR EN FIREBASE")
+                        .show()
+                    return@addSnapshotListener
+                }
+                listaIDs.clear()
+                var lista = ArrayList<String>()
+                for(documento in value!!){
+                    var datos = documento.getString("NOMBRE")!!
+                    lista.add(datos)
+                    listaIDs.add(documento.id)
+                }
+                Log.d("~ListaN","$lista")
+                listaParaMostrar.adapter = ArrayAdapter<String>(m,
+                    android.R.layout.simple_list_item_1, lista)
+            }
     }
 
 }

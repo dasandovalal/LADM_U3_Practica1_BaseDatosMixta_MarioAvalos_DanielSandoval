@@ -1,5 +1,7 @@
 package mx.edu.ittepic.ladm_u3_practica1_basedatosmixta_marioavalos_danielsandoval
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -11,18 +13,21 @@ class MainActivity2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
 
-        AlumnoInteresado(this).mostrarRegistros()
+        val BD = this.intent.extras!!.getString("BD")!!
+
+        when(BD){
+            "NUBE"->{
+                AlumnoInteresado(this).mostrarDatosDeLaNube(listaRegistros)
+            }
+            "LOCAL" ->{
+                AlumnoInteresado(this).mostrarRegistrosLocales(listaRegistros)
+            }
+        }
 
         btnAtras.setOnClickListener {
             finish()
         }
 
     }
-
-    override fun onRestart() {
-        super.onRestart()
-        AlumnoInteresado(this).mostrarRegistros()
-    }
-
 
 }

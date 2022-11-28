@@ -74,12 +74,36 @@
         android:id="@+id/btnRegistrar"
         android:layout_marginBottom="30dp"
         />
-    <Button
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" VER REGIStros locales"
-        android:id="@+id/btnMostrar"
+        android:text="VER REGISTROS"
+        android:layout_gravity="center"
+        android:textColor="#009688"
         />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="en la nube"
+            android:id="@+id/btnMostrarNube"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="locales"
+            android:layout_weight="1"
+            android:id="@+id/btnMostrarLocales"
+            android:layout_margin="5dp"
+            />
+
+
+    </LinearLayout>
+
 
     <Button
         android:layout_width="match_parent"

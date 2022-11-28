@@ -48,10 +48,18 @@ class MainActivity : AppCompatActivity() {
 
         }//btnRegistrar
 
-        btnMostrar.setOnClickListener {
+        btnMostrarNube.setOnClickListener {
             val otraVentana = Intent(this,MainActivity2::class.java)
+            otraVentana.putExtra("BD","NUBE")
+            startActivity(otraVentana)
+        }//Mostrar registros de la nube en otra ventana
+
+        btnMostrarLocales.setOnClickListener {
+            val otraVentana = Intent(this,MainActivity2::class.java)
+            otraVentana.putExtra("BD","LOCAL")
             startActivity(otraVentana)
         }//Mostrar registros locales en otra ventana
+
 
         btnFirebase.setOnClickListener {
             AlumnoInteresado(this).guardarEnLaNube()
