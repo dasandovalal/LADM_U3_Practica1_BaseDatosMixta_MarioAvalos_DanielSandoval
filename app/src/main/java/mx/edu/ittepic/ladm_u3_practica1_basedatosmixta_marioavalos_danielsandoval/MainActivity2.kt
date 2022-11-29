@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_main2.*
+import kotlinx.android.synthetic.main.activity_main3.*
 
 class MainActivity2 : AppCompatActivity() {
 
@@ -26,6 +28,11 @@ class MainActivity2 : AppCompatActivity() {
 
         btnAtras.setOnClickListener {
             finish()
+        }
+
+        listaRegistros.setOnItemClickListener { adapterView, view, i, l ->
+            Log.d("~Algo","Entro itemClick")
+            AlumnoInteresado(this).settearDatosParaActualizar(i)
         }
 
     }

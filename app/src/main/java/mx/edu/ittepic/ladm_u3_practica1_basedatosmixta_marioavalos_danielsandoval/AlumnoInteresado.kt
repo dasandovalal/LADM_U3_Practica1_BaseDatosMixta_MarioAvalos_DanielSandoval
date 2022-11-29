@@ -2,6 +2,7 @@ package mx.edu.ittepic.ladm_u3_practica1_basedatosmixta_marioavalos_danielsandov
 
 import android.R
 import android.content.ContentValues
+import android.content.Intent
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -17,7 +18,6 @@ import java.sql.Date
 data class AlumnoInteresado(val m:AppCompatActivity){
 
     private var baseDatos = BaseDatos(m,"REGISTROS",null,1)
-    var listaIDs = ArrayList<String>()
 
     fun registrarAlumnoInteresado(nombre:EditText,escuela:EditText,
                                   telefono:EditText,carreraUno:Spinner,
@@ -118,7 +118,6 @@ data class AlumnoInteresado(val m:AppCompatActivity){
         } else {
             lista.add("LA TABLA ESTA VACIA")
         }
-        Log.d("~ListaL","$lista")
         listaParaMostrar.adapter = ArrayAdapter<String>(m,
             android.R.layout.simple_list_item_1, lista)
     }
@@ -134,7 +133,6 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                         .show()
                     return@addSnapshotListener
                 }
-                listaIDs.clear()
                 var lista = ArrayList<String>()
                 for(documento in value!!){
                     var datos = "\n" + documento.getString("NOMBRE")!! +
@@ -146,9 +144,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                             "\n" + documento.getString("FECHA") +
                             "\n" + documento.getString("HORA") + "\n"
                     lista.add(datos)
-                    listaIDs.add(documento.id)
                 }
-                Log.d("~ListaN","$lista")
                 listaParaMostrar.adapter = ArrayAdapter<String>(m,
                     android.R.layout.simple_list_item_1, lista)
             }
@@ -157,6 +153,32 @@ data class AlumnoInteresado(val m:AppCompatActivity){
     fun eliminarPorID(idRegistro: String){
         var resultado = baseDatos.writableDatabase
             .delete("ALUMNO_INTERESADO","ID=?", arrayOf(idRegistro))
+    }
+
+    fun settearDatosParaActualizar(indexSeleccionado: Int){
+        var dbID = FirebaseFirestore.getInstance()
+            .collection("ALUMNO_INTERESADO")
+            .addSnapshotListener { value, error ->
+                var listaID = ArrayList<String>()
+                for (document in value!!){
+                    listaID.add(document.id)
+                }
+                var idRegistro = listaID[indexSeleccionado]
+                var dbDocument = FirebaseFirestore.getInstance()
+                    .collection("ALUMNO_INTERESADO")
+                    .document(idRegistro)
+                    .addSnapshotListener { value, error ->
+                        var otraVentana = Intent(m,MainActivity3::class.java)
+                        otraVentana.putExtra("NOMBRE",value!!.getString("NOMBRE"))
+                        otraVentana.putExtra("ESCUELA",value!!.getString("ESCUELA_ACTUAL"))
+                        otraVentana.putExtra("TELEFONO",value!!.getString("TELEFONO"))
+                        otraVentana.putExtra("CARRERA_UNO",value!!.getString("CARRERA_UNO"))
+                        otraVentana.putExtra("CARRERA_DOS",value!!.getString("CARRERA_DOS"))
+                        otraVentana.putExtra("CORREO",value!!.getString("CORREO"))
+                        m.startActivity(otraVentana)
+                    }
+
+            }
     }
 
 

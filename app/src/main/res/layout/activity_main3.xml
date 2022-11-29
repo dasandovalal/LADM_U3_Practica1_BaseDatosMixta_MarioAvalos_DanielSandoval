@@ -102,18 +102,18 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Eliminar"
-            android:id="@+id/btnEliminar"
-            android:backgroundTint="#FF1100"
+            android:text="actualizar"
             android:layout_weight="1"
+            android:id="@+id/btnActualizar"
             android:layout_margin="5dp"
             />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="actualizar"
+            android:text="Eliminar"
+            android:id="@+id/btnEliminar"
+            android:backgroundTint="#640700"
             android:layout_weight="1"
-            android:id="@+id/btnActualizar"
             android:layout_margin="5dp"
             />
     </LinearLayout>
