@@ -31,8 +31,11 @@ class MainActivity2 : AppCompatActivity() {
         }
 
         listaRegistros.setOnItemClickListener { adapterView, view, i, l ->
-            Log.d("~Algo","Entro itemClick")
-            AlumnoInteresado(this).settearDatosParaActualizar(i)
+            val otraActivity = Intent(this,MainActivity3::class.java)
+            otraActivity.putExtra("INDEX",i)
+            startActivity(otraActivity)
+            //Log.d("~Algo","Entro itemClick")
+            //AlumnoInteresado(this).settearDatosParaActualizar(i)
         }
 
     }

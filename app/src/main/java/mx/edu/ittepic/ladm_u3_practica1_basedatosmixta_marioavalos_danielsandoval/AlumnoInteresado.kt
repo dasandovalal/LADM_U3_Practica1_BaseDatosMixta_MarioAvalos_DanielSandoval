@@ -156,7 +156,8 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             .delete("ALUMNO_INTERESADO","ID=?", arrayOf(idRegistro))
     }
 
-    fun settearDatosParaActualizar(indexSeleccionado: Int){
+    fun settearDatosParaActualizar(indexSeleccionado: Int,nombre: EditText,escuela: EditText,telefono: EditText,
+                                   carreraUno: EditText,carreraDos: EditText,correo: EditText,lblDocument:TextView){
         var dbID = FirebaseFirestore.getInstance()
             .collection("ALUMNO_INTERESADO")
             .addSnapshotListener { value, error ->
@@ -165,27 +166,23 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                     listaID.add(document.id)
                 }
                 var idRegistro = listaID[indexSeleccionado]
+                lblDocument.text = idRegistro //Guardar el id del documento
                 var dbDocument = FirebaseFirestore.getInstance()
                     .collection("ALUMNO_INTERESADO")
                     .document(idRegistro)
                     .addSnapshotListener { value, error ->
-                        var otraVentana = Intent(m,MainActivity3::class.java)
-                        otraVentana.putExtra("NOMBRE",value!!.getString("NOMBRE"))
-                        otraVentana.putExtra("ESCUELA",value!!.getString("ESCUELA_ACTUAL"))
-                        otraVentana.putExtra("TELEFONO",value!!.getString("TELEFONO"))
-                        otraVentana.putExtra("CARRERA_UNO",value!!.getString("CARRERA_UNO"))
-                        otraVentana.putExtra("CARRERA_DOS",value!!.getString("CARRERA_DOS"))
-                        otraVentana.putExtra("CORREO",value!!.getString("CORREO"))
-                        otraVentana.putExtra("idRegistro",idRegistro)
-                        m.startActivity(otraVentana)
+                        nombre.setText("${value!!.getString("NOMBRE")}")
+                        escuela.setText("${value!!.getString("ESCUELA_ACTUAL")}")
+                        telefono.setText("${value!!.getString("TELEFONO")}")
+                        carreraUno.setText("${value!!.getString("CARRERA_UNO")}")
+                        carreraDos.setText("${value!!.getString("CARRERA_DOS")}")
+                        correo.setText("${value!!.getString("CORREO")}")
                     }
-
-
             }
     }
 
-    fun actualizar(idRegistro: String,nombre: EditText,escuela: EditText,telefono: EditText,
-    carreraUno: EditText,carreraDos: EditText,correo: EditText){
+    fun actualizar(nombre: EditText,escuela: EditText,telefono: EditText,
+    carreraUno: EditText,carreraDos: EditText,correo: EditText,lblDocument:TextView) {
         var datos = mapOf(
             "NOMBRE" to nombre.text.toString(),
             "ESCUELA_ACTUAL" to escuela.text.toString(),
@@ -194,22 +191,23 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             "CARRERA_DOS" to carreraDos.text.toString(),
             "CORREO" to correo.text.toString()
         )
-        FirebaseFirestore.getInstance()
+        var dbAct = FirebaseFirestore.getInstance()
             .collection("ALUMNO_INTERESADO")
-            .document(idRegistro)
+            .document(lblDocument.text.toString())
             .update(datos)
             .addOnSuccessListener {
-                Toast.makeText(m,"SE ACTUALIZO",Toast.LENGTH_LONG).show()
-                nombre.invalidate()
+                Toast.makeText(m, "SE ACTUALIZO", Toast.LENGTH_LONG).show()
+                m.finish()
+                        /*nombre.invalidate()
                 escuela.invalidate()
                 telefono.invalidate()
                 carreraUno.invalidate()
                 carreraDos.invalidate()
                 correo.invalidate()
-                m.btnActualizar.invalidate()
+                m.btnActualizar.invalidate()*/
             }
             .addOnFailureListener {
-                Log.w("~Error","Error",it)
+                Log.w("~Error", "Error", it)
                 AlertDialog.Builder(m)
                     .setTitle("ERROR EN FIREBASE")
                     .setMessage(it.message!!)
@@ -217,18 +215,20 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             }
     }
 
-    fun eliminar(idRegistro: String){
-        FirebaseFirestore.getInstance()
+    fun eliminar(lblDocument: TextView) {
+        var dbElim = FirebaseFirestore.getInstance()
             .collection("ALUMNO_INTERESADO")
-            .document(idRegistro)
+            .document(lblDocument.text.toString())
             .delete()
             .addOnSuccessListener {
-                Toast.makeText(m,"SE ELIMINO",Toast.LENGTH_LONG).show()
+                Toast.makeText(m, "SE ELIMINO", Toast.LENGTH_LONG).show()
+                m.finish()
+                        /*
                 m.btnActualizar.invalidate()
-                m.btnEliminar.invalidate()
+                m.btnEliminar.invalidate()*/
             }
             .addOnFailureListener {
-                Log.w("~Error","Error",it)
+                Log.w("~Error", "Error", it)
                 AlertDialog.Builder(m)
                     .setTitle("ERROR EN FIREBASE")
                     .setMessage(it.message!!)
