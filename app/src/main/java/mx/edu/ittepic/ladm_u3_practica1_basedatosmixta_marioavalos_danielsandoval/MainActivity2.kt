@@ -37,4 +37,9 @@ class MainActivity2 : AppCompatActivity() {
 
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        AlumnoInteresado(this).mostrarDatosDeLaNube(listaRegistros)
+    }
+
 }

@@ -9,6 +9,8 @@ class MainActivity3 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main3)
 
+        val idRegistro = this.intent.extras!!.getString("idRegistro")!!
+
         var NOMBRE = this.intent.extras!!.getString("NOMBRE")
         var ESCUELA = this.intent.extras!!.getString("ESCUELA")
         var TELEFONO = this.intent.extras!!.getString("TELEFONO")
@@ -21,5 +23,16 @@ class MainActivity3 : AppCompatActivity() {
         act_CarreraUNO.setText(CARRERA_UNO)
         act_CarreraDOS.setText(CARRERA_DOS)
         act_txtCorreo.setText(CORREO)
+
+        btnActualizar.setOnClickListener {
+            AlumnoInteresado(this).actualizar(idRegistro,act_txtNombre,act_txtEscuelaActual,
+            act_txtTelefono,act_CarreraUNO,act_CarreraDOS,act_txtCorreo)
+        }
+
+        btnEliminar.setOnClickListener {
+            AlumnoInteresado(this).eliminar(idRegistro)
+        }
+
+        btnVolverActualizar.setOnClickListener { finish() }
     }
 }

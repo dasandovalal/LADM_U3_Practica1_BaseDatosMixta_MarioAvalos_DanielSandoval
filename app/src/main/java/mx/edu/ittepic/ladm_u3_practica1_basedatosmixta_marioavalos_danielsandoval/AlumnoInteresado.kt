@@ -13,6 +13,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.activity_main2.*
+import kotlinx.android.synthetic.main.activity_main3.*
 import java.sql.Date
 
 data class AlumnoInteresado(val m:AppCompatActivity){
@@ -175,12 +176,64 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                         otraVentana.putExtra("CARRERA_UNO",value!!.getString("CARRERA_UNO"))
                         otraVentana.putExtra("CARRERA_DOS",value!!.getString("CARRERA_DOS"))
                         otraVentana.putExtra("CORREO",value!!.getString("CORREO"))
+                        otraVentana.putExtra("idRegistro",idRegistro)
                         m.startActivity(otraVentana)
                     }
+
 
             }
     }
 
+    fun actualizar(idRegistro: String,nombre: EditText,escuela: EditText,telefono: EditText,
+    carreraUno: EditText,carreraDos: EditText,correo: EditText){
+        var datos = mapOf(
+            "NOMBRE" to nombre.text.toString(),
+            "ESCUELA_ACTUAL" to escuela.text.toString(),
+            "TELEFONO" to telefono.text.toString(),
+            "CARRERA_UNO" to carreraUno.text.toString(),
+            "CARRERA_DOS" to carreraDos.text.toString(),
+            "CORREO" to correo.text.toString()
+        )
+        FirebaseFirestore.getInstance()
+            .collection("ALUMNO_INTERESADO")
+            .document(idRegistro)
+            .update(datos)
+            .addOnSuccessListener {
+                Toast.makeText(m,"SE ACTUALIZO",Toast.LENGTH_LONG).show()
+                nombre.invalidate()
+                escuela.invalidate()
+                telefono.invalidate()
+                carreraUno.invalidate()
+                carreraDos.invalidate()
+                correo.invalidate()
+                m.btnActualizar.invalidate()
+            }
+            .addOnFailureListener {
+                Log.w("~Error","Error",it)
+                AlertDialog.Builder(m)
+                    .setTitle("ERROR EN FIREBASE")
+                    .setMessage(it.message!!)
+                    .show()
+            }
+    }
 
+    fun eliminar(idRegistro: String){
+        FirebaseFirestore.getInstance()
+            .collection("ALUMNO_INTERESADO")
+            .document(idRegistro)
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(m,"SE ELIMINO",Toast.LENGTH_LONG).show()
+                m.btnActualizar.invalidate()
+                m.btnEliminar.invalidate()
+            }
+            .addOnFailureListener {
+                Log.w("~Error","Error",it)
+                AlertDialog.Builder(m)
+                    .setTitle("ERROR EN FIREBASE")
+                    .setMessage(it.message!!)
+                    .show()
+            }
+    }
 
 }
