@@ -49,34 +49,6 @@ data class AlumnoInteresado(val m:AppCompatActivity){
         return true
     }
 
-    fun mostrarRegistrosLocales(listaParaMostrar:ListView){
-        var registros = baseDatos.readableDatabase
-        val lista = ArrayList<String>()
-        var resultado = registros.query("ALUMNO_INTERESADO", arrayOf("*"), null,
-            null, null, null, null)
-
-        if (resultado.moveToFirst()) {
-            do {
-                val datos = "${resultado.getString(1)}" +
-                        "\n${resultado.getString(2)}" +
-                        "\n${resultado.getString(3)}" +
-                        "\n${resultado.getString(4)}" +
-                        "\n${resultado.getString(5)}" +
-                        "\n${resultado.getString(6)}" +
-                        "\n${resultado.getString(7)}" +
-                        "\n${resultado.getString(8)}"
-                lista.add(datos)
-                //IDs.add(resultado.getInt(0))
-            } while (resultado.moveToNext())
-
-        } else {
-            lista.add("LA TABLA ESTA VACIA")
-        }
-        Log.d("~ListaL","$lista")
-        listaParaMostrar.adapter = ArrayAdapter<String>(m,
-            android.R.layout.simple_list_item_1, lista)
-    }
-
     fun guardarEnLaNube(){
         val nube = Firebase.firestore
         var registros = baseDatos.readableDatabase
@@ -123,13 +95,36 @@ data class AlumnoInteresado(val m:AppCompatActivity){
 
     }
 
-    fun eliminarPorID(idRegistro: String){
-        var resultado = baseDatos.writableDatabase
-            .delete("ALUMNO_INTERESADO","ID=?", arrayOf(idRegistro))
+    fun mostrarRegistrosLocales(listaParaMostrar:ListView){
+        var registros = baseDatos.readableDatabase
+        val lista = ArrayList<String>()
+        var resultado = registros.query("ALUMNO_INTERESADO", arrayOf("*"), null,
+            null, null, null, null)
+
+        if (resultado.moveToFirst()) {
+            do {
+                val datos = "${resultado.getString(1)}" +
+                        "\n${resultado.getString(2)}" +
+                        "\n${resultado.getString(3)}" +
+                        "\n${resultado.getString(4)}" +
+                        "\n${resultado.getString(5)}" +
+                        "\n${resultado.getString(6)}" +
+                        "\n${resultado.getString(7)}" +
+                        "\n${resultado.getString(8)}"
+                lista.add(datos)
+                //IDs.add(resultado.getInt(0))
+            } while (resultado.moveToNext())
+
+        } else {
+            lista.add("LA TABLA ESTA VACIA")
+        }
+        Log.d("~ListaL","$lista")
+        listaParaMostrar.adapter = ArrayAdapter<String>(m,
+            android.R.layout.simple_list_item_1, lista)
     }
 
     fun mostrarDatosDeLaNube(listaParaMostrar:ListView){
-       FirebaseFirestore.getInstance()
+        FirebaseFirestore.getInstance()
             .collection("ALUMNO_INTERESADO")
             .addSnapshotListener { value, error ->
                 if(error != null){
@@ -142,7 +137,14 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                 listaIDs.clear()
                 var lista = ArrayList<String>()
                 for(documento in value!!){
-                    var datos = documento.getString("NOMBRE")!!
+                    var datos = "\n" + documento.getString("NOMBRE")!! +
+                            "\n" + documento.getString("ESCUELA_ACTUAL") +
+                            "\n" + documento.getString("TELEFONO") +
+                            "\n" + documento.getString("CARRERA_UNO") +
+                            "\n" + documento.getString("CARRERA_DOS") +
+                            "\n" + documento.getString("CORREO") +
+                            "\n" + documento.getString("FECHA") +
+                            "\n" + documento.getString("HORA") + "\n"
                     lista.add(datos)
                     listaIDs.add(documento.id)
                 }
@@ -151,5 +153,12 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                     android.R.layout.simple_list_item_1, lista)
             }
     }
+
+    fun eliminarPorID(idRegistro: String){
+        var resultado = baseDatos.writableDatabase
+            .delete("ALUMNO_INTERESADO","ID=?", arrayOf(idRegistro))
+    }
+
+
 
 }
