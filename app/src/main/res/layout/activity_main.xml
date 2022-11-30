@@ -104,7 +104,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="GUARDAR EN LA NUBE"
+        android:text="RESPALDAR EN LA NUBE"
         android:id="@+id/btnFirebase"
         />
     <TextView

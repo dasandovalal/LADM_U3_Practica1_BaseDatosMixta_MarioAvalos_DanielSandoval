@@ -29,6 +29,26 @@ class MainActivity : AppCompatActivity() {
                     )
                 if (sePudoRegistrar){
                     limpiarCampos()
+                    if (AlumnoInteresado(this).isInternetAvailable()){
+                        AlertDialog.Builder(this)
+                            .setTitle("RESPALADAR")
+                            .setMessage("¿DESEAS GUARDAR EN LA NUBE?")
+                            .setPositiveButton("OK"){d,i->
+                                AlumnoInteresado(this).guardarEnLaNube()
+                            }
+                            .setNegativeButton("NO"){d,i->
+                                Toast.makeText(this,"REGISTRO GUARDADO LOCALMENTE", Toast.LENGTH_SHORT).show()
+                            }
+                            .show()
+                    }else{
+                        AlertDialog.Builder(this)
+                            .setTitle("VERIFICAR CONEXION")
+                            .setMessage("NO HAY INTERNET. Se guardo el registro en memoria")
+                            .setPositiveButton("OK"){d,i->
+                                Toast.makeText(this,"REGISTRO GUARDADO LOCALMENTE", Toast.LENGTH_SHORT).show()
+                            }
+                            .show()
+                    }
                 }else{
                     AlertDialog.Builder(this)
                         .setTitle("ERROR")
@@ -62,7 +82,11 @@ class MainActivity : AppCompatActivity() {
 
 
         btnFirebase.setOnClickListener {
-            AlumnoInteresado(this).guardarEnLaNube()
+            if(AlumnoInteresado(this).isInternetAvailable()){
+                AlumnoInteresado(this).guardarEnLaNube()
+            }else{
+                Toast.makeText(this,"NO HAY CONEXION A INTERNET",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

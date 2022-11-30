@@ -1,20 +1,21 @@
 package mx.edu.ittepic.ladm_u3_practica1_basedatosmixta_marioavalos_danielsandoval
 
-import android.R
 import android.content.ContentValues
-import android.content.Intent
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlinx.android.synthetic.main.activity_main3.*
-import java.sql.Date
 
 data class AlumnoInteresado(val m:AppCompatActivity){
 
@@ -45,7 +46,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                 .setTitle("ERROR")
                 .setMessage("NO SE PUDO GUARDAR").show()
         }else{
-            Toast.makeText(m,"REGISTRO GUARDADO LOCALMENTE", Toast.LENGTH_LONG).show()
+
         }
         return true
     }
@@ -72,7 +73,6 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                 nube.collection("ALUMNO_INTERESADO")
                     .add(datos)
                     .addOnSuccessListener {
-                        Toast.makeText(m,"GUARDADO EN LA NUBE",Toast.LENGTH_LONG).show()
                         Log.d("~Success","$it")
                     }
                     .addOnFailureListener {
@@ -82,7 +82,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                             .setMessage(it.message!!)
                             .show()
                     }
-
+                Toast.makeText(m,"GUARDADO EN LA NUBE",Toast.LENGTH_SHORT).show()
                 eliminarPorID(resultado.getInt(0).toString())
 
             } while (resultado.moveToNext())
@@ -126,6 +126,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
     fun mostrarDatosDeLaNube(listaParaMostrar:ListView){
         FirebaseFirestore.getInstance()
             .collection("ALUMNO_INTERESADO")
+            .orderBy("FECHA",Query.Direction.DESCENDING)
             .addSnapshotListener { value, error ->
                 if(error != null){
                     AlertDialog.Builder(m)
@@ -241,6 +242,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
         when(posicionCampoSeleccionado){
             0-> {//FECHA
                 FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                    .orderBy("FECHA",Query.Direction.ASCENDING)
                     .addSnapshotListener { value, error ->
                         var resultado = ArrayList<String>()
                         for (documento in value!!){
@@ -265,6 +267,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             }
             1-> { //CARRERA 1
                 FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                    .orderBy("NOMBRE",Query.Direction.ASCENDING)
                     .addSnapshotListener { value, error ->
                         var resultado = ArrayList<String>()
                         for (documento in value!!){
@@ -289,6 +292,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             }
             2-> { //CARRERA 2
                 FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                    .orderBy("NOMBRE",Query.Direction.ASCENDING)
                     .addSnapshotListener { value, error ->
                         var resultado = ArrayList<String>()
                         for (documento in value!!){
@@ -313,6 +317,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             }
             3-> { //ESCUELA
                 FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                    .orderBy("ESCUELA_ACTUAL",Query.Direction.ASCENDING)
                     .addSnapshotListener { value, error ->
                         var resultado = ArrayList<String>()
                         for (documento in value!!){
@@ -336,6 +341,13 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                     }
             }
         }
+    }
+
+    fun isInternetAvailable(): Boolean {
+        val connectionManager = m.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = connectionManager.activeNetworkInfo
+        val isConnected:Boolean = activeNetwork?.isConnectedOrConnecting == true
+        return isConnected
     }
 
 }
