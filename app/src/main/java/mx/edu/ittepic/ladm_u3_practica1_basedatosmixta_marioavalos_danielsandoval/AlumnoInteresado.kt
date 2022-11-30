@@ -236,4 +236,106 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             }
     }
 
+    fun consulta(combo:Spinner,clave:EditText,lista:ListView){
+        var posicionCampoSeleccionado = combo.selectedItemId.toInt()
+        when(posicionCampoSeleccionado){
+            0-> {//FECHA
+                FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                    .addSnapshotListener { value, error ->
+                        var resultado = ArrayList<String>()
+                        for (documento in value!!){
+                            if (documento.getString("FECHA").toString()
+                                    .contains(clave.text.toString())) {
+                                var datos = "\n" + documento.getString("NOMBRE")!! +
+                                        "\n" + documento.getString("ESCUELA_ACTUAL") +
+                                        "\n" + documento.getString("TELEFONO") +
+                                        "\n" + documento.getString("CARRERA_UNO") +
+                                        "\n" + documento.getString("CARRERA_DOS") +
+                                        "\n" + documento.getString("CORREO") +
+                                        "\n" + documento.getString("FECHA") +
+                                        "\n" + documento.getString("HORA") + "\n"
+                                resultado.add(datos!!)
+                            }
+                            lista.adapter = ArrayAdapter<String>(
+                                m,
+                                android.R.layout.simple_list_item_1, resultado
+                            )
+                        }
+                    }
+            }
+            1-> { //CARRERA 1
+                FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                    .addSnapshotListener { value, error ->
+                        var resultado = ArrayList<String>()
+                        for (documento in value!!){
+                            if (documento.getString("CARRERA_UNO").toString()
+                                    .contains(clave.text.toString().uppercase())) {
+                                var datos = "\n" + documento.getString("NOMBRE")!! +
+                                        "\n" + documento.getString("ESCUELA_ACTUAL") +
+                                        "\n" + documento.getString("TELEFONO") +
+                                        "\n" + documento.getString("CARRERA_UNO") +
+                                        "\n" + documento.getString("CARRERA_DOS") +
+                                        "\n" + documento.getString("CORREO") +
+                                        "\n" + documento.getString("FECHA") +
+                                        "\n" + documento.getString("HORA") + "\n"
+                                resultado.add(datos!!)
+                            }
+                            lista.adapter = ArrayAdapter<String>(
+                                m,
+                                android.R.layout.simple_list_item_1, resultado
+                            )
+                        }
+                    }
+            }
+            2-> { //CARRERA 2
+                FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                    .addSnapshotListener { value, error ->
+                        var resultado = ArrayList<String>()
+                        for (documento in value!!){
+                            if (documento.getString("CARRERA_DOS").toString()
+                                    .contains(clave.text.toString().uppercase())) {
+                                var datos = "\n" + documento.getString("NOMBRE")!! +
+                                        "\n" + documento.getString("ESCUELA_ACTUAL") +
+                                        "\n" + documento.getString("TELEFONO") +
+                                        "\n" + documento.getString("CARRERA_UNO") +
+                                        "\n" + documento.getString("CARRERA_DOS") +
+                                        "\n" + documento.getString("CORREO") +
+                                        "\n" + documento.getString("FECHA") +
+                                        "\n" + documento.getString("HORA") + "\n"
+                                resultado.add(datos!!)
+                            }
+                            lista.adapter = ArrayAdapter<String>(
+                                m,
+                                android.R.layout.simple_list_item_1, resultado
+                            )
+                        }
+                    }
+            }
+            3-> { //ESCUELA
+                FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                    .addSnapshotListener { value, error ->
+                        var resultado = ArrayList<String>()
+                        for (documento in value!!){
+                            if (documento.getString("ESCUELA_ACTUAL").toString().uppercase()
+                                    .contains(clave.text.toString().uppercase())) {
+                                var datos = "\n" + documento.getString("NOMBRE")!! +
+                                        "\n" + documento.getString("ESCUELA_ACTUAL") +
+                                        "\n" + documento.getString("TELEFONO") +
+                                        "\n" + documento.getString("CARRERA_UNO") +
+                                        "\n" + documento.getString("CARRERA_DOS") +
+                                        "\n" + documento.getString("CORREO") +
+                                        "\n" + documento.getString("FECHA") +
+                                        "\n" + documento.getString("HORA") + "\n"
+                                resultado.add(datos!!)
+                            }
+                            lista.adapter = ArrayAdapter<String>(
+                                m,
+                                android.R.layout.simple_list_item_1, resultado
+                            )
+                        }
+                    }
+            }
+        }
+    }
+
 }
