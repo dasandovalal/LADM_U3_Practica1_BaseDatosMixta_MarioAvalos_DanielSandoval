@@ -120,12 +120,14 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             lista.add("LA TABLA ESTA VACIA")
         }
         listaParaMostrar.adapter = ArrayAdapter<String>(m,
-            android.R.layout.simple_list_item_2, lista,)
+            android.R.layout.simple_list_item_1, lista,)
     }
 
     fun mostrarDatosDeLaNube(listaParaMostrar:ListView){
         FirebaseFirestore.getInstance()
             .collection("ALUMNO_INTERESADO")
+            .orderBy("FECHA",Query.Direction.DESCENDING)
+            .orderBy("HORA",Query.Direction.DESCENDING)
             .addSnapshotListener { value, error ->
                 if(error != null){
                     AlertDialog.Builder(m)
@@ -243,6 +245,8 @@ data class AlumnoInteresado(val m:AppCompatActivity){
         when(posicionCampoSeleccionado){
             0-> {//FECHA
                 FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                    .orderBy("FECHA",Query.Direction.DESCENDING)
+                    .orderBy("HORA",Query.Direction.DESCENDING)
                     .addSnapshotListener { value, error ->
                         var resultado = ArrayList<String>()
                         for (documento in value!!){
@@ -268,6 +272,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             }
             1-> { //CARRERA 1
                 FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                    .orderBy("NOMBRE",Query.Direction.ASCENDING)
                     .addSnapshotListener { value, error ->
                         var resultado = ArrayList<String>()
                         for (documento in value!!){
@@ -293,6 +298,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             }
             2-> { //CARRERA 2
                 FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                    .orderBy("NOMBRE",Query.Direction.ASCENDING)
                     .addSnapshotListener { value, error ->
                         var resultado = ArrayList<String>()
                         for (documento in value!!){
@@ -318,6 +324,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             }
             3-> { //ESCUELA
                 FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
+                    .orderBy("ESCUELA_ACTUAL",Query.Direction.ASCENDING)
                     .addSnapshotListener { value, error ->
                         var resultado = ArrayList<String>()
                         for (documento in value!!){
