@@ -8,14 +8,14 @@
     android:padding="10dp"
     tools:context=".MainActivity3">
 
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/idDocument"
-        android:hint="idDocument"
+        android:id="@+id/lblID"
+        android:hint="lblID"
         android:textSize="3sp"
         android:layout_marginTop="-5dp"
-        />
+        />-->
 
     <TextView
         android:layout_width="wrap_content"

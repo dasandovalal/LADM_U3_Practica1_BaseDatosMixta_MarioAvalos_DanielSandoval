@@ -38,8 +38,11 @@ class MainActivity2 : AppCompatActivity() {
         }
 
         listaRegistros.setOnItemClickListener { adapterView, view, i, l ->
+            val electedFromList =listaRegistros.getItemAtPosition(i).toString()
+            val estringArr = electedFromList.split(",")
+            Log.d("~Array","${estringArr[1]}")
             val otraActivity = Intent(this,MainActivity3::class.java)
-            otraActivity.putExtra("INDEX",i)
+            otraActivity.putExtra("ID",estringArr[1].replace("\n",""))
             startActivity(otraActivity)
         }
 

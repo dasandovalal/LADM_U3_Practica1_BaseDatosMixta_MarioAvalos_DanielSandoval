@@ -9,10 +9,10 @@ class MainActivity3 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main3)
 
-        val index = this.intent.extras!!.getInt("INDEX")
+        val idDocument = this.intent.extras!!.getString("ID")!!
 
-        AlumnoInteresado(this).settearDatosParaActualizar(index,act_txtNombre,act_txtEscuelaActual,
-            act_txtTelefono,act_CarreraUNO,act_CarreraDOS,act_txtCorreo,idDocument)
+        AlumnoInteresado(this).settearDatosParaActualizar(idDocument,act_txtNombre,act_txtEscuelaActual,
+            act_txtTelefono,act_CarreraUNO,act_CarreraDOS,act_txtCorreo)
 
         btnActualizar.setOnClickListener {
             AlumnoInteresado(this).actualizar(act_txtNombre,act_txtEscuelaActual,

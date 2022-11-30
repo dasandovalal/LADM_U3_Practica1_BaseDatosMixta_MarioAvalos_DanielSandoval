@@ -120,7 +120,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             lista.add("LA TABLA ESTA VACIA")
         }
         listaParaMostrar.adapter = ArrayAdapter<String>(m,
-            android.R.layout.simple_list_item_1, lista)
+            android.R.layout.simple_list_item_2, lista,)
     }
 
     fun mostrarDatosDeLaNube(listaParaMostrar:ListView){
@@ -136,14 +136,15 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                 }
                 var lista = ArrayList<String>()
                 for(documento in value!!){
-                    var datos = "\n" + documento.getString("NOMBRE")!! +
+                    var datos = "\n" +documento.getString("NOMBRE")!! +
                             "\n" + documento.getString("ESCUELA_ACTUAL") +
                             "\n" + documento.getString("TELEFONO") +
                             "\n" + documento.getString("CARRERA_UNO") +
                             "\n" + documento.getString("CARRERA_DOS") +
                             "\n" + documento.getString("CORREO") +
                             "\n" + documento.getString("FECHA") +
-                            "\n" + documento.getString("HORA") + "\n"
+                            "\n" + documento.getString("HORA") +
+                            ",\n" + documento.id + "\n"
                     lista.add(datos)
                 }
                 listaParaMostrar.adapter = ArrayAdapter<String>(m,
@@ -156,33 +157,34 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             .delete("ALUMNO_INTERESADO","ID=?", arrayOf(idRegistro))
     }
 
-    fun settearDatosParaActualizar(indexSeleccionado: Int,nombre: EditText,escuela: EditText,telefono: EditText,
-                                   carreraUno: EditText,carreraDos: EditText,correo: EditText,lblDocument:TextView){
-        var dbID = FirebaseFirestore.getInstance()
+    fun settearDatosParaActualizar(idRegistro: String,nombre: EditText,escuela: EditText,telefono: EditText,
+                                   carreraUno: EditText,carreraDos: EditText,correo: EditText){
+        /*var dbID = FirebaseFirestore.getInstance()
             .collection("ALUMNO_INTERESADO")
             .addSnapshotListener { value, error ->
                 var listaID = ArrayList<String>()
                 for (document in value!!){
                     listaID.add(document.id)
                 }
-                var idRegistro = listaID[indexSeleccionado]
-                lblDocument.text = idRegistro //Guardar el id del documento
-                var dbDocument = FirebaseFirestore.getInstance()
-                    .collection("ALUMNO_INTERESADO")
-                    .document(idRegistro)
-                    .addSnapshotListener { value, error ->
-                        nombre.setText("${value!!.getString("NOMBRE")}")
-                        escuela.setText("${value!!.getString("ESCUELA_ACTUAL")}")
-                        telefono.setText("${value!!.getString("TELEFONO")}")
-                        carreraUno.setText("${value!!.getString("CARRERA_UNO")}")
-                        carreraDos.setText("${value!!.getString("CARRERA_DOS")}")
-                        correo.setText("${value!!.getString("CORREO")}")
-                    }
+                var idRegistro = listaID[indexSeleccionado]*/
+        //lblDocument.text = idRegistro //Guardar el id del documento*/
+        FirebaseFirestore.getInstance()
+            .collection("ALUMNO_INTERESADO")
+            .document(idRegistro)
+            .addSnapshotListener { value, error ->
+                Log.d("~ID","$idRegistro")
+                nombre.setText("${value!!.getString("NOMBRE")}")
+                escuela.setText("${value!!.getString("ESCUELA_ACTUAL")}")
+                telefono.setText("${value!!.getString("TELEFONO")}")
+                carreraUno.setText("${value!!.getString("CARRERA_UNO")}")
+                carreraDos.setText("${value!!.getString("CARRERA_DOS")}")
+                correo.setText("${value!!.getString("CORREO")}")
             }
     }
 
+
     fun actualizar(nombre: EditText,escuela: EditText,telefono: EditText,
-    carreraUno: EditText,carreraDos: EditText,correo: EditText,lblDocument:TextView) {
+    carreraUno: EditText,carreraDos: EditText,correo: EditText,idDocument:String) {
         var datos = mapOf(
             "NOMBRE" to nombre.text.toString(),
             "ESCUELA_ACTUAL" to escuela.text.toString(),
@@ -193,7 +195,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
         )
         var dbAct = FirebaseFirestore.getInstance()
             .collection("ALUMNO_INTERESADO")
-            .document(lblDocument.text.toString())
+            .document(idDocument)
             .update(datos)
             .addOnSuccessListener {
                 Toast.makeText(m, "SE ACTUALIZO", Toast.LENGTH_LONG).show()
@@ -215,10 +217,10 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             }
     }
 
-    fun eliminar(lblDocument: TextView) {
+    fun eliminar(idDocument: String) {
         var dbElim = FirebaseFirestore.getInstance()
             .collection("ALUMNO_INTERESADO")
-            .document(lblDocument.text.toString())
+            .document(idDocument)
             .delete()
             .addOnSuccessListener {
                 Toast.makeText(m, "SE ELIMINO", Toast.LENGTH_LONG).show()
@@ -253,7 +255,8 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                                         "\n" + documento.getString("CARRERA_DOS") +
                                         "\n" + documento.getString("CORREO") +
                                         "\n" + documento.getString("FECHA") +
-                                        "\n" + documento.getString("HORA") + "\n"
+                                        "\n" + documento.getString("HORA") +
+                                        ",\n" + documento.id + "\n"
                                 resultado.add(datos!!)
                             }
                             lista.adapter = ArrayAdapter<String>(
@@ -277,7 +280,8 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                                         "\n" + documento.getString("CARRERA_DOS") +
                                         "\n" + documento.getString("CORREO") +
                                         "\n" + documento.getString("FECHA") +
-                                        "\n" + documento.getString("HORA") + "\n"
+                                        "\n" + documento.getString("HORA") +
+                                        ",\n" + documento.id + "\n"
                                 resultado.add(datos!!)
                             }
                             lista.adapter = ArrayAdapter<String>(
@@ -301,7 +305,8 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                                         "\n" + documento.getString("CARRERA_DOS") +
                                         "\n" + documento.getString("CORREO") +
                                         "\n" + documento.getString("FECHA") +
-                                        "\n" + documento.getString("HORA") + "\n"
+                                        "\n" + documento.getString("HORA") +
+                                        ",\n" + documento.id + "\n"
                                 resultado.add(datos!!)
                             }
                             lista.adapter = ArrayAdapter<String>(
@@ -325,7 +330,8 @@ data class AlumnoInteresado(val m:AppCompatActivity){
                                         "\n" + documento.getString("CARRERA_DOS") +
                                         "\n" + documento.getString("CORREO") +
                                         "\n" + documento.getString("FECHA") +
-                                        "\n" + documento.getString("HORA") + "\n"
+                                        "\n" + documento.getString("HORA") +
+                                        ",\n" + documento.id + "\n"
                                 resultado.add(datos!!)
                             }
                             lista.adapter = ArrayAdapter<String>(
