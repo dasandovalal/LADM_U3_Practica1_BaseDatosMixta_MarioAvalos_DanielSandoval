@@ -127,7 +127,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
         FirebaseFirestore.getInstance()
             .collection("ALUMNO_INTERESADO")
             .orderBy("FECHA",Query.Direction.DESCENDING)
-            .orderBy("HORA",Query.Direction.DESCENDING)
+            //.orderBy("HORA",Query.Direction.DESCENDING)
             .addSnapshotListener { value, error ->
                 if(error != null){
                     AlertDialog.Builder(m)
@@ -246,7 +246,7 @@ data class AlumnoInteresado(val m:AppCompatActivity){
             0-> {//FECHA
                 FirebaseFirestore.getInstance().collection("ALUMNO_INTERESADO")
                     .orderBy("FECHA",Query.Direction.DESCENDING)
-                    .orderBy("HORA",Query.Direction.DESCENDING)
+                    //.orderBy("HORA",Query.Direction.DESCENDING)
                     .addSnapshotListener { value, error ->
                         var resultado = ArrayList<String>()
                         for (documento in value!!){
