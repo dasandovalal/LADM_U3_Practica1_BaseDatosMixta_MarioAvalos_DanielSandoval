@@ -41,8 +41,6 @@ class MainActivity2 : AppCompatActivity() {
             val otraActivity = Intent(this,MainActivity3::class.java)
             otraActivity.putExtra("INDEX",i)
             startActivity(otraActivity)
-            //Log.d("~Algo","Entro itemClick")
-            //AlumnoInteresado(this).settearDatosParaActualizar(i)
         }
 
         btnBuscar.setOnClickListener {
