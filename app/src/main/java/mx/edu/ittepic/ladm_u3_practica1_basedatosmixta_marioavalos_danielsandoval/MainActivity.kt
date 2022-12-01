@@ -22,40 +22,49 @@ class MainActivity : AppCompatActivity() {
 
         btnRegistrar.setOnClickListener {
             if (validarCampos()) {
-                val sePudoRegistrar =
+                /*val sePudoRegistrar =
                     AlumnoInteresado(this).registrarAlumnoInteresado(
                         txtNombre, txtEscuelaActual, txtTelefono, spinnerCarreraUNO,
                         spinnerCarreraDOS, txtCorreo
                     )
                 if (sePudoRegistrar){
-                    limpiarCampos()
+                    limpiarCampos()*/
                     if (AlumnoInteresado(this).isInternetAvailable()){
                         AlertDialog.Builder(this)
                             .setTitle("RESPALADAR")
                             .setMessage("¿DESEAS GUARDAR EN LA NUBE?")
                             .setPositiveButton("OK"){d,i->
+                                registrarLocalmente()
                                 AlumnoInteresado(this).guardarEnLaNube()
                             }
-                            .setNegativeButton("NO"){d,i->
+                            .setNegativeButton("NO, EN MEMORIA"){d,i->
+                                registrarLocalmente()
                                 Toast.makeText(this,"REGISTRO GUARDADO LOCALMENTE", Toast.LENGTH_SHORT).show()
+                            }
+                            .setNeutralButton("CANCELAR"){d,i->
+                                Toast.makeText(this,"NO SE GUARDO EL REGISTRO EN NINGUN LADO",Toast.LENGTH_SHORT).show()
                             }
                             .show()
                     }else{
                         AlertDialog.Builder(this)
                             .setTitle("VERIFICAR CONEXION")
-                            .setMessage("NO HAY INTERNET. Se guardo el registro en memoria")
+                            .setMessage("NO HAY INTERNET. ¿DESEAS GUARDAR EN MEMORIA?")
                             .setPositiveButton("OK"){d,i->
+                                registrarLocalmente()
                                 Toast.makeText(this,"REGISTRO GUARDADO LOCALMENTE", Toast.LENGTH_SHORT).show()
+                            }
+                            .setNeutralButton("CANCELAR"){d,i->
+                                Toast.makeText(this,"NO SE GUARDO EL REGISTRO EN NINGUN LADO",Toast.LENGTH_SHORT).show()
                             }
                             .show()
                     }
-                }else{
+                /*}else{
                     AlertDialog.Builder(this)
                         .setTitle("ERROR")
                         .setMessage("NO SE PUDO INSERTAR")
                         .setPositiveButton("OK"){d,i->}
                         .show()
-                }// Intentar insertar
+                }// Intentar insertar*/
             }else{
                 AlertDialog.Builder(this)
                     .setTitle("REGLAS PARA REGISTRAR")
@@ -69,9 +78,13 @@ class MainActivity : AppCompatActivity() {
         }//btnRegistrar
 
         btnMostrarNube.setOnClickListener {
-            val otraVentana = Intent(this,MainActivity2::class.java)
-            otraVentana.putExtra("BD","NUBE")
-            startActivity(otraVentana)
+            if(AlumnoInteresado(this).isInternetAvailable()) {
+                val otraVentana = Intent(this, MainActivity2::class.java)
+                otraVentana.putExtra("BD", "NUBE")
+                startActivity(otraVentana)
+            }else{
+                Toast.makeText(this,"NO HAY CONEXION A INTERNET",Toast.LENGTH_SHORT).show()
+            }
         }//Mostrar registros de la nube en otra ventana
 
         btnMostrarLocales.setOnClickListener {
@@ -105,6 +118,22 @@ class MainActivity : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    fun registrarLocalmente(){
+        val sePudoRegistrar = AlumnoInteresado(this).registrarAlumnoInteresado(
+            txtNombre, txtEscuelaActual, txtTelefono, spinnerCarreraUNO,
+            spinnerCarreraDOS, txtCorreo
+        )
+        if (sePudoRegistrar){
+            limpiarCampos()
+        }else {
+            AlertDialog.Builder(this)
+                .setTitle("ERROR")
+                .setMessage("NO SE PUDO INSERTAR")
+                .setPositiveButton("OK") { d, i -> }
+                .show()
+        }
     }
 
 
